@@ -53,7 +53,7 @@ module.exports = class PaymentController {
             const paymentsData = await Payment.findAll({
                 attributes: [
                   'monthOfPayment',
-                  [Sequelize.fn('SUM', Sequelize.col('Payment.month_value')), 'totalValue']
+                  [Sequelize.fn('SUM', Sequelize.col('Payments.month_value')), 'totalValue']
                 ],
                 include: [
                   {
@@ -62,8 +62,8 @@ module.exports = class PaymentController {
                     where: { AdminId }
                   }
                 ],
-                group: ['Payment.monthOfPayment'],
-                order: [['monthOfPayment', 'DESC']],
+                group: ['Payments.monthOfPayment'],
+                order: [['Payments.monthOfPayment', 'DESC']],
                 limit: monthsToRetrieve,
                 raw: true
             });
