@@ -52,21 +52,22 @@ module.exports = class PaymentController {
 
             const paymentsData = await Payment.findAll({
                 attributes: [
-                  'monthOfPayment',
-                  [Sequelize.fn('SUM', Sequelize.col('Payments.month_value')), 'totalValue']
+                    'monthOfPayment',
+                    [Sequelize.fn('SUM', Sequelize.col('month_value')), 'totalValue']
                 ],
                 include: [
-                  {
-                    model: User,
-                    as: 'User',
-                    where: { AdminId }
-                  }
+                    {
+                        model: User,
+                        as: 'User',
+                        where: { AdminId }
+                    }
                 ],
-                group: ['Payments.monthOfPayment'],
-                order: [['Payments.monthOfPayment', 'DESC']],
+                group: ['monthOfPayment'],
+                order: [['monthOfPayment', 'DESC']],
                 limit: monthsToRetrieve,
                 raw: true
             });
+            
             
             const paymentsMonth = paymentsData.map((value) => {
 

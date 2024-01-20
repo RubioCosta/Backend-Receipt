@@ -12,17 +12,7 @@ const mysqlDataBase= process.env.MYSQLDATABASE;
 const sequelize = new Sequelize(mysqlDataBase, mysqlName, password, {
     dialect: 'mysql',
     port: mysqlPort,
-    host: host,
-    dialectOptions: {
-        supportBigNumbers: true,
-        bigNumberStrings: true,
-        options: {
-          useUTC: false,
-          dateFirst: 1,
-          enableArithAbort: true,
-          sql_mode: ''
-        }
-      }
+    host: host
 });
 
 
