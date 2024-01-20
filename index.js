@@ -43,6 +43,6 @@ app.get("*", (req, res) => {
     });
 });
 
-conn.sync({ force: true }).then(() => {
+conn.sync().then(() => {
     app.listen(port);
 }).catch((err) => console.log(err));

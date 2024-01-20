@@ -9,13 +9,11 @@ const mysqlPort = process.env.MYSQLPORT;
 const mysqlName= process.env.MYSQLNAME;
 const mysqlDataBase= process.env.MYSQLDATABASE;
 
-const sequelize = new Sequelize({
-    username: mysqlName,
-    password: password,
-    database: mysqlDataBase,
+const sequelize = new Sequelize(mysqlDataBase, mysqlName, password, {
     dialect: 'mysql',
     port: mysqlPort,
     host: host
 });
+
 
 module.exports = sequelize;
