@@ -6,11 +6,16 @@ require('dotenv').config();
 const password = process.env.MYSQLPASSWORD;
 const host = process.env.MYSQLHOST;
 const mysqlPort = process.env.MYSQLPORT;
+const mysqlName= process.env.MYSQLNAME;
+const mysqlDataBase= process.env.MYSQLDATABASE;
 
-const sequelize = new Sequelize('receipt', "root", password, {
-    host: host,
+const sequelize = new Sequelize({
+    username: mysqlName,
+    password: password,
+    database: mysqlDataBase,
+    dialect: 'mysql',
     port: mysqlPort,
-    dialect: 'mysql'
+    host: host
 });
 
 module.exports = sequelize;
