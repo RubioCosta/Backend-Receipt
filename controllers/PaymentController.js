@@ -67,7 +67,7 @@ module.exports = class PaymentController {
                 limit: monthsToRetrieve,
                 raw: true
             });
-
+            
             const paymentsMonth = paymentsData.map((value) => {
 
                 const name = value.monthOfPayment
