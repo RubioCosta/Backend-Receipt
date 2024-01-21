@@ -1,7 +1,8 @@
-const { Op, Sequelize } = require('sequelize');
+const { Op, Sequelize, QueryTypes } = require('sequelize');
 
 const User = require('../models/User');
 const Payment = require('../models/Payment');
+const conn = require('../db/conn')
 
 module.exports = class PaymentController {
 
@@ -50,23 +51,10 @@ module.exports = class PaymentController {
 
             const monthsToRetrieve = 7;
 
-            const paymentsData = await Payment.findAll({
-                attributes: [
-                    'monthOfPayment',
-                    [Sequelize.fn('SUM', Sequelize.col('Payment.month_value')), 'totalValue']
-                ],
-                include: [
-                    {
-                        model: User,
-                        as: 'User',
-                        where: { AdminId }
-                    }
-                ],
-                order: [['monthOfPayment', 'DESC']],
-                limit: monthsToRetrieve
-            });
-            
-            console.log(paymentsData)
+            const sqlQuery="SELECT payments.monthOfPayment, SUM(payments.month_value) as totalValue FROM payments INNER JOIN users ON payments.UserId = users.id  WHERE users.AdminId = :adminId GROUP BY payments.monthOfPayment ORDER BY payments.monthOfPayment DESC LIMIT :limit"
+            const replacements = { adminId: AdminId, limit: monthsToRetrieve };
+
+            let paymentsData = await conn.query(sqlQuery, { replacements, type: Sequelize.QueryTypes.SELECT });
 
             const paymentsMonth = paymentsData.map((value) => {
 
