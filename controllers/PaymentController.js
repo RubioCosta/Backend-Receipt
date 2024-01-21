@@ -43,11 +43,15 @@ module.exports = class PaymentController {
                 }
             });
             
-            const totalValue = await User.sum('month_value', {
+            let totalValue = await User.sum('month_value', {
                 where: {
                   status: true
                 }
-              });
+            });
+
+            if (!totalValue) {
+                totalValue = 0;
+            }
 
             const monthsToRetrieve = 7;
 
