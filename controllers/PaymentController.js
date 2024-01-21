@@ -63,14 +63,19 @@ module.exports = class PaymentController {
                     }
                 ],
                 order: [['monthOfPayment', 'DESC']],
-                limit: monthsToRetrieve,
-                raw: true
+                limit: monthsToRetrieve
             });
             
+            console.log(paymentsData)
+
             const paymentsMonth = paymentsData.map((value) => {
 
                 const name = value.monthOfPayment
-                const valor = parseInt(value.totalValue)
+                let valor = parseInt(value.totalValue)
+
+                if (!valor) {
+                    valor = 0;
+                }
 
                 const data = {
                     name,
