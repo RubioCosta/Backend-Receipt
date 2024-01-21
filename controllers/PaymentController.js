@@ -20,7 +20,7 @@ module.exports = class PaymentController {
 
             const date = new Date();
             
-            let month = date.getMonth() + 1; // Adiciona 1 para obter o mês de 1 a 12
+            let month = date.getMonth() + 1;
             const year = date.getFullYear();
 
             if (month < 10) {
@@ -28,20 +28,20 @@ module.exports = class PaymentController {
             }
 
             const dateFormatted = month + "/" + year
-
+            
             const usersPayment = await Payment.count({
                 where: {
                     monthOfPayment: dateFormatted
                 }
             });
-
+            
             const totalUsers = await User.count({
                 where: {
                     AdminId,
                     status: true
                 }
             });
-
+            
             const totalValue = await User.sum('month_value', {
                 where: {
                   status: true
@@ -53,7 +53,7 @@ module.exports = class PaymentController {
             const paymentsData = await Payment.findAll({
                 attributes: [
                     'monthOfPayment',
-                    [Sequelize.fn('SUM', Sequelize.col('Payments.month_value')), 'totalValue']
+                    [Sequelize.fn('SUM', Sequelize.col('Payment.month_value')), 'totalValue']
                 ],
                 include: [
                     {
@@ -62,13 +62,11 @@ module.exports = class PaymentController {
                         where: { AdminId }
                     }
                 ],
-                group: ['Payments.monthOfPayment'],
-                order: [['Payments.monthOfPayment', 'DESC']],
+                group: ['monthOfPayment'],
+                order: [['monthOfPayment', 'DESC']],
                 limit: monthsToRetrieve,
                 raw: true
             });
-            
-            
             
             const paymentsMonth = paymentsData.map((value) => {
 
