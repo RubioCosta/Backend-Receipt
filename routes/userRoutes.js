@@ -11,5 +11,6 @@ router.get('/search/:adminId', authAdmin, UserController.searchUser);
 router.get('/receipt/:adminId', authAdmin, UserController.receiptGenerate);
 router.get('/:adminId', authAdmin, UserController.showAllUser);
 router.post('/:adminId', authAdmin, UserController.createUser);
+router.post('/update/:adminId', authAdmin, UserController.updateUser);
 
 module.exports = router;

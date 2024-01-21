@@ -6,6 +6,46 @@ const Payment = require('../models/Payment');
 
 module.exports = class UserController {
 
+    static async updateUser(req, res) {
+
+        const { name, school, mother_name, telephone_number, month_value, userId, status } = req.body
+
+        const AdminId = req.params.adminId
+
+        if (!name || !school || !mother_name || !telephone_number || !month_value || !AdminId || !userId || (status === "")) {
+            return res.status(400).json({
+                status: 'error',
+                message: "Informe todos os dados para prosseguir!"
+            });
+        }    
+
+        try {
+
+            const userData = {
+                name,
+                school,
+                mother_name,
+                telephone_number,
+                month_value,
+                AdminId,
+                status
+            }
+
+            await User.update(userData, { where: { AdminId, id: userId } });
+
+            return res.status(200).json({
+                status: 'success',
+                message: 'Usuário atualizado com sucesso!'
+            });
+
+        } catch(err) {
+            res.status(500).json({
+                status: 'error',
+                message: err.message
+            });
+        }
+    } 
+
     static async receiptGenerate(req, res) {
 
         const AdminId = req.params.adminId
@@ -125,6 +165,13 @@ module.exports = class UserController {
         const yearFilter = date.slice(3,7);
 
         const AdminId = req.params.adminId;
+
+        if (!AdminId) {
+            return res.status(400).json({
+                status: 'error',
+                message: "Informe todos os dados para prosseguir!"
+            });
+        }
 
         try {
 
