@@ -11,9 +11,9 @@ const app = express();
 const port = process.env.PORT;
 
 // Models
+const Payment = require('./models/Payment')
 const User = require('./models/User');
 const Admin = require('./models/Admin')
-const Payment = require('./models/Payment')
 
 // Routes
 const userRoutes = require('./routes/userRoutes')
@@ -43,6 +43,6 @@ app.get("*", (req, res) => {
     });
 });
 
-conn.sync().then(() => {
+conn.sync({force: true}).then(() => {
     app.listen(port);
 }).catch((err) => console.log(err));
