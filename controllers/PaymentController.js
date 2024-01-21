@@ -62,7 +62,6 @@ module.exports = class PaymentController {
                         where: { AdminId }
                     }
                 ],
-                group: ['monthOfPayment'],
                 order: [['monthOfPayment', 'DESC']],
                 limit: monthsToRetrieve,
                 raw: true
