@@ -51,7 +51,7 @@ module.exports = class PaymentController {
 
             const monthsToRetrieve = 7;
 
-            const sqlQuery="SELECT payments.monthOfPayment, SUM(payments.month_value) as totalValue FROM payments INNER JOIN users ON payments.UserId = users.id  WHERE users.AdminId = :adminId GROUP BY payments.monthOfPayment ORDER BY payments.monthOfPayment DESC LIMIT :limit"
+            const sqlQuery="SELECT Payments.monthOfPayment, SUM(Payments.month_value) as totalValue FROM Payments INNER JOIN Users ON Payments.UserId = Users.id  WHERE Users.AdminId = :adminId GROUP BY Payments.monthOfPayment ORDER BY Payments.monthOfPayment DESC LIMIT :limit"
             const replacements = { adminId: AdminId, limit: monthsToRetrieve };
 
             let paymentsData = await conn.query(sqlQuery, { replacements, type: Sequelize.QueryTypes.SELECT });
